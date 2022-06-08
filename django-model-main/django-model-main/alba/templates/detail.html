@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Detail alb{% endblock %}
+{% block css %}
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekkolightbox.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="row mb-3">
+ <div class="col-sm-12 bg-warning">
+ <h2 class="display-4 text-center">Podrobné informace</h2>
+ </div>
+</div>
+<div class="row mt-5 mb-3">
+ <div class="col-lg-6 mb-3">
+
+      <h2 class="display-4 mb-3"><strong>{{ album_detail.nazev }}</strong></h2>
+    <hr>
+
+    {% for interpret in album_detail.interpret.all %}
+        <h3 class="display-5 mb-4">{{ interpret.jmeno }} {{ interpret.prijmeni }}{% endfor %}
+        </h3>
+
+ <div class="bg-secondary text-light p-2 mb-3">Datum vydání: {{ album_detail.datumV }} | Hodnocení: {{ album_detail.hodnoceni }} z 10
+     <!-- Řešení zobrazení hodnocení filmu ve formě hvězdiček -->
+    | {% with ''|center:album_detail.hodnoceni as range %}
+ {% for _ in range %}★{% endfor %} |
+ {% endwith %}
+ <p></p>
+      <p class = "bg-secondary text-light mb-1">Vydavatelství: {{ album_detail.vydavatelstvi }} | Forma: {{ album_detail.forma }} | Certifikace: {{ album_detail.certifikace }} |</p>
+ </div>
+ <div class="row">
+ <div class="col-md-12">
+      <hr>
+    <h3 class="text-center display-5 mb-3 font-italic"><u>Seznam stop</u></h3>
+     <hr>
+     {% for pisen in album_detail.pisen_set.all %}
+         <p>{{ pisen.poradi }}. {{ pisen.nazev }} | {{ pisen.delka|date:"i:s" }} |</p>
+     {% endfor %}
+    <hr>
+     <p><strong>Stopáž: {{ album_detail.runtime }} min.</strong></p>
+ </div>
+ </div>
+ </div>
+ <div class="col-lg-6 bg-light p-3">
+ <h3 class="border-bottom pb-3 text-secondary text-center textuppercase">Vizuální reprezentace alba</h3>
+ <div class="row">
+ {% if album_detail.image %}
+ <a class="rounded mx-auto d-block" href="{{ album_detail.image.url }}">
+ <img src="{{ album_detail.image.url }}" class="img-fluid"
+alt="Vizuální reprezentace alba">
+ </a>
+ {% endif %}
+ {% for image in album_detail.attachment_set.all %}
+ <div class="col-lg-6 col-xl-4">
+ <a href="{{ image.file.url }}" data-toggle="lightbox" datagallery="gallery">
+ <img src="{{ image.file.url }}" class="img-fluid img-thumbnail" alt="{{ image.title }}">
+ </div>
+ {% endfor %}
+ </div>
+ </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekkolightbox.min.js"></script>
+<script>
+ $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+ event.preventDefault();
+ $(this).ekkoLightbox();
+ });
+</script>
+{% endblock %}
+

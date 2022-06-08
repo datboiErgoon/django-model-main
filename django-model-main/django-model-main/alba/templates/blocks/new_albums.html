@@ -1,0 +1,38 @@
+{% load mathfilters %}
+<div>
+    {% for album in albumss %}
+        <div class="row mb-4 border-bottom">
+            <div class="col-md-2">
+                {% if album.image %}
+                    <img class="card-img-top" src="{{ album.image.url }}" alt="{{ album.nazev }}">
+                {% endif %}
+                </a>
+            </div>
+            <div class="col-md-8">
+                <h4><a href="{% url 'album_detail' album.pk %}">{{ album.nazev|upper }}</a></h4>
+                <p class="card-text"><strong>
+                    {% for interpret in album.interpret.all %}
+                        {{ interpret.jmeno }} {{ interpret.prijmeni }}
+                    {% endfor %}
+                </strong></p>
+                <hr>
+                <p class="text-center display-5 mb-3 font-italic"><u>Seznam stop</u></p>
+             {% for pisen in album.pisen_set.all %}
+                    <p>{{ pisen.poradi }}. {{ pisen.nazev }} | {{ pisen.delka|date:"i:s" }} |</p>
+                {% endfor %}
+                <hr>
+                <p>Stopáž: {{ album.runtime }} min., datum uvedení: {{ album.datumV|date:'d.m.Y' }}</p>
+                <p>Žánry: {% for zanr in album.zanr.all %}
+                    <a href="{% url 'album-zanr' zanr.zanr %}" class="btn btn-info">  {{ zanr }}  </a>
+                {% endfor %}</p>
+            </div>
+            <div class="col-md-2">
+                <span class="display-4">{{ album.hodnoceni }}</span>
+                <div class="progress">
+                    <div class="progress-bar bg-info"
+                         style="width:{{ album.hodnoceni|mul:'10'|floatformat }}%"></div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

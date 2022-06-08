@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ view_title }}{% endblock %}
+<!-- Obsahový blok stránky -->
+{% block content %}
+<div class="row mb-3">
+ <div class="col-sm-12 bg-warning">
+ <h2 class="display-4 text-center">{{ view_head }}</h2>
+ </div>
+</div>
+
+<div class="row">
+
+ {% for album in albums_list %}
+ <div class="col-sm-6 col-md-4 col-lg-4 col-xl-2">
+ <div class="card">
+ {% if album.image %}
+ <img class="card-img-top" src="{{ album.image.url }}" alt="{{ album.nazev }}">
+</div>
+ {% endif %}
+     <div class="card-body">
+ <h4 class="card-title"><a href="{% url 'album_detail' album.pk %}">{{ album.nazev }}</a></h4>
+ <p class="card-text">{% for zanr in album.zanr.all %}<a href="{% url 'album-zanr' zanr.zanr %}" class="btn btnlight">| {{ zanr }} |</a> {% endfor %}</p>
+ <a href="{% url 'album_detail' album.pk %}" class="btn btn-primary">Podrobnosti</a>
+ </div>
+ </div>
+ {% endfor %}
+</div>
+{% endblock %}
+
+

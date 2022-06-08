@@ -1,0 +1,14 @@
+h2 {
+    color:red !important;
+}
+
+header {
+    background-image:url('../img/vinyl2.png');
+    background-repeat: no-repeat;
+    background-position: 45px 32px;
+    background-size: 200px;
+}
+
+.logo{
+    size: 100px 100px;
+}

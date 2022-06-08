@@ -1,0 +1,8 @@
+<ol class="list-group">
+    {% for album in deset %}
+        <li class="list-group-item list-group-item-danger d-flex justify-content-between align-items-center">
+            <a class="text-dark" href="{% url 'album_detail' album.id %}">{{ album.nazev }}</a>
+            <span class="badge badge-pill badge-danger">{{ album.hodnoceni }}</span>
+        </li>
+    {% endfor %}
+</ol>
